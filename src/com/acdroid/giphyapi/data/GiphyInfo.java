@@ -63,10 +63,14 @@ public class GiphyInfo {
         public GifImage imageFixedHeight;
         @JsonProperty("fixed_height_still")
         public GifImage imageFixedHeightStill;
+        @JsonProperty("fixed_height_downsampled")
+        public GifImage imageFixedHeightDownsampled;        
         @JsonProperty("fixed_width")
         public GifImage imageFixedWidth;
         @JsonProperty("fixed_width_still")
         public GifImage imagFixedWidthStill;
+        @JsonProperty("fixed_width_downsampled")
+        public GifImage imageFixedWidthDownsampled;
         @JsonProperty("original")
         public GifImage imageOriginal;
         
@@ -74,9 +78,11 @@ public class GiphyInfo {
         @Override
         public String toString() {
             return "GifImages [imageFixedHeight=" + imageFixedHeight + ", imageFixedHeightStill="
-                    + imageFixedHeightStill + ", imageFixedWidth=" + imageFixedWidth
-                    + ", imagFixedWidthStill=" + imagFixedWidthStill + ", imageOriginal="
-                    + imageOriginal + "]";
+                    + imageFixedHeightStill + ", imageFixedHeightDownsampled="
+                    + imageFixedHeightDownsampled + ", imageFixedWidth=" + imageFixedWidth
+                    + ", imagFixedWidthStill=" + imagFixedWidthStill
+                    + ", imageFixedWidthDownsampled=" + imageFixedWidthDownsampled
+                    + ", imageOriginal=" + imageOriginal + "]";
         }
     }
     

@@ -18,10 +18,12 @@ public class Giphy {
 	private static final String BETA_KEY = "dc6zaTOxFJmzC";
 	private static final String HOST = "http://api.giphy.com/";
 	private static final String RECENT_END_POINT = "/v1/gifs/recent";
+	private static final String TRANSLATE_END_POINT = "/v1/gifs/translate";
 	
-	private static final String APIKEY_KEY = "?api_key=";
-	private static final String TAG_KEY = "&tag=";
-	private static final String LIMIT_KEY = "&limit=";
+	private static final String KEY_APIKEY = "?api_key=";
+	private static final String KEY_TAG = "&tag=";
+	private static final String KEY_LIMIT = "&limit=";
+	private static final String KEY_WORD = "&s=";
 	
 	
 	
@@ -46,6 +48,17 @@ public class Giphy {
 	}
 	
 	/**
+     * Fetch most recent gifs, optionally limited by tag. Returns 10 results. 
+     * Additional GIF size data can be looked up by using the get GIF by id.
+     * 
+     * @param tag (optional) limits recent GIFs to a specific tag. null or empty to disable
+     * @param callback to get the result
+     */
+	public static void getRecentGifs(String tag, GiphyCallback callback){
+	    getRecentGifs(tag, -1, callback);
+	}
+	
+	/**
 	 * Fetch most recent gifs, optionally limited by tag. Returns 10 results. 
 	 * Additional GIF size data can be looked up by using the get GIF by id.
 	 * 
@@ -54,30 +67,65 @@ public class Giphy {
 	 * @param callback to get the result
 	 */
 	public static void getRecentGifs(String tag, int limit, GiphyCallback callback){
-		
 		StringBuilder url = new StringBuilder(HOST);
 		url.append(RECENT_END_POINT);
-		url.append(APIKEY_KEY);
+		url.append(KEY_APIKEY);
 		url.append(mApiKey);
 		if (tag != null && !"".equals(tag)){
-			url.append(TAG_KEY);
+			url.append(KEY_TAG);
 			url.append(tag);
 		}
 		if (limit != -1){
-			url.append(LIMIT_KEY);
+			url.append(KEY_LIMIT);
 			url.append(limit);
 		}
-	
+		Log.d(TAG, "Fetching recent gifs");
 		new FetchInfo(url.toString(), callback).executeFetch();
 	}
+	
+	/**
+	 * This is prototype endpoint for using Giphy as a translation engine for a GIF dialect. 
+	 * The translate API draws on search, but uses the Giphy "special sauce" to handle 
+	 * translating from one vocabulary to another. In this case, words to GIFs.
+	 *   
+     * @param term that you want to represents with a GIF
+     * @param callback to get the result
+     */
+    public static void translateWordToGif(String term, GiphyCallback callback){
+        translateWordToGif(term, -1, callback);
+    }
+    
+    /**
+     * This is prototype endpoint for using Giphy as a translation engine for a GIF dialect. 
+     * The translate API draws on search, but uses the Giphy "special sauce" to handle 
+     * translating from one vocabulary to another. In this case, words to GIFs.
+     * 
+     * @param term that you want to represents with a GIF
+     * @param limit (optional) limits the number of results returned. -1 to disable
+     * @param callback to get the result
+     */
+    public static void translateWordToGif(String term, int limit, GiphyCallback callback){
+        StringBuilder url = new StringBuilder(HOST);
+        url.append(RECENT_END_POINT);
+        url.append(KEY_APIKEY);
+        url.append(mApiKey);
+        url.append(KEY_WORD);
+        url.append(term);
+        if (limit != -1){
+            url.append(KEY_LIMIT);
+            url.append(limit);
+        }
+    
+        Log.d(TAG, "Translate term \"" + term + "\" to a gif");
+        new FetchInfo(url.toString(), callback).executeFetch();
+    }
 	
 	
 	/**
 	 * Fetch Info from the server, parse it and return it
 	 * 
 	 * 
-	 * @author Marcos Trujillo
-	 *
+	 * @author Marcos Trujillo          
 	 */
 	private static class FetchInfo extends FetchInfoTask<GiphyInfo>{
 	    private static final int TRAFFIC_STATS_TAG = 0xBBBB; //For DDMS debug
