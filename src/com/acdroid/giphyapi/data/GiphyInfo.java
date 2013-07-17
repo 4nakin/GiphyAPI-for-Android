@@ -17,7 +17,11 @@ public class GiphyInfo {
     @JsonProperty("meta")
     public Meta meta;
 	
-	
+	@Override
+    public String toString() {
+        return "GiphyInfo [gifList=" + gifList + ", meta=" + meta + "]";
+    }
+    
     @JsonIgnoreProperties(ignoreUnknown = true)
 	public static class GifInfo{
         @JsonProperty("type")
@@ -56,15 +60,15 @@ public class GiphyInfo {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class GifImages{
         @JsonProperty("fixed_height")
-        public GifImages imageFixedHeight;
+        public GifImage imageFixedHeight;
         @JsonProperty("fixed_height_still")
-        public GifImages imageFixedHeightStill;
+        public GifImage imageFixedHeightStill;
         @JsonProperty("fixed_width")
-        public GifImages imageFixedWidth;
+        public GifImage imageFixedWidth;
         @JsonProperty("fixed_width_still")
-        public GifImages imagFixedWidthStill;
+        public GifImage imagFixedWidthStill;
         @JsonProperty("original")
-        public GifImages imageOriginal;
+        public GifImage imageOriginal;
         
         
         @Override
@@ -83,11 +87,15 @@ public class GiphyInfo {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class GifImage{
         @JsonProperty("url")
-        private String url;
+        public String url;
         @JsonProperty("width")
-        private String width;
+        public String width;
         @JsonProperty("height")
-        private String height;
+        public String height;
+        @JsonProperty("size")
+        public String size;
+        @JsonProperty("frames")
+        public String frames;
         
         public String getUrl() {
             return url;
@@ -110,10 +118,7 @@ public class GiphyInfo {
             this.width = width;
         }
         
-        public void setWidth(int width) {
-            this.width = "" + width;
-        }
-        
+
         public int getHeight() {
             try{
                 return Integer.parseInt(height);
@@ -126,14 +131,37 @@ public class GiphyInfo {
         public void setHeight(String height) {
             this.height = height;
         }
-        
-        public void setHeight(int height) {
-            this.height = "" + height;
+
+        public int getSize(){
+            try{
+                return Integer.parseInt(size);
+            }
+            catch (Exception e) {
+                return 0;
+            }
+        }
+
+        public void setSize(String size) {
+            this.size = size;
+        }
+       
+        public int getFrames() {
+            try{
+                return Integer.parseInt(frames);
+            }
+            catch (Exception e) {
+                return 0;
+            }
+        }
+
+        public void setFrames(String frames) {
+            this.frames = frames;
         }
 
         @Override
         public String toString() {
-            return "GifImage [url=" + url + ", width=" + width + ", height=" + height + "]";
+            return "GifImage [url=" + url + ", width=" + width + ", height=" + height + ", size="
+                    + size + ", frames=" + frames + "]";
         }
     }
     

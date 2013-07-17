@@ -112,6 +112,7 @@ public class Giphy {
                 mCallback.onResult(new ArrayList<GifInfo>());
             }
 		    
+		    Log.d(TAG, result.toString());
 		    mCallback.onResult(result.gifList);			
 		}
 
